@@ -22,7 +22,9 @@ RUN apt-get update \
     && apt-get install -y curl gnupg2 unzip \
     && rm -rf /var/lib/apt/lists/* \
     && /extra/sonar/sonarqube.sh \
-    && /extra/sonar/codescan.sh
+    && /extra/sonar/codescan.sh \
+    rm -rf /extra
+    
     
 VOLUME "$SONARQUBE_HOME/data"
 WORKDIR $SONARQUBE_HOME
