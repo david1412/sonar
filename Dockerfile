@@ -21,8 +21,8 @@ RUN for server in $(shuf -e ha.pool.sks-keyservers.net \
 RUN apt-get update \
     && apt-get install -y curl gnupg2 unzip \
     && rm -rf /var/lib/apt/lists/* \
-    && /extra/sonar/sonarqube.sh \
-    && /extra/sonar/codescan.sh \
+    && /extra/sonar/sonarqube/sonarqube.sh \  
+    && /extra/sonar/codescan/codescan.sh \
     rm -rf /extra
     
     
