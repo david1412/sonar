@@ -21,23 +21,13 @@ RUN for server in $(shuf -e ha.pool.sks-keyservers.net \
 RUN apt-get update \
     && apt-get install -y curl gnupg2 unzip \
     && rm -rf /var/lib/apt/lists/* \
-    set -x \
-    && cd /opt \
-    && curl -o sonarqube.zip -fSL https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-$SONAR_VERSION.zip \
-    && curl -o sonarqube.zip.asc -fSL https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-$SONAR_VERSION.zip.asc \
-    && gpg --batch --verify sonarqube.zip.asc sonarqube.zip \
-    && unzip -q sonarqube.zip \
-    && mv sonarqube-$SONAR_VERSION sonarqube \
-    && chown -R sonarqube:sonarqube sonarqube \
-    && rm sonarqube.zip* \
-    && curl -O http://downloads.code-scan.com/sonar-salesforce-plugin-$SCAN_VERSION.zip \
-    && unzip sonar-salesforce-plugin-$SCAN_VERSION.zip \
-    && rm -f sonar-salesforce-plugin-$SCAN_VERSION.zip \
-    && mv sonar-salesforce-plugin/sonar-salesforce-plugin-$SCAN_VERSION.jar /opt/sonarqube/extensions/plugins \
-    && rm -rf $SONARQUBE_HOME/bin/*
+    && /extra/sonar/sonarqube.sh \
+    && /extra/sonar/codescan.sh
     
 VOLUME "$SONARQUBE_HOME/data"
 WORKDIR $SONARQUBE_HOME
 COPY run.sh $SONARQUBE_HOME/bin/
 USER sonarqube
 ENTRYPOINT ["./bin/run.sh"]
+
+CMD /bin/bash
